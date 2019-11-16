@@ -7,6 +7,7 @@ public class CustomController : MonoBehaviour
     public enum Mode { Default, Dense, Jump, InvertGravity, Transparent };
     public bool gravityInverted = false;
     public bool isTransparent = false;
+    public bool canBeTransparent = true;
 
     // Public variables
     public Vector3 velocity;
@@ -17,7 +18,6 @@ public class CustomController : MonoBehaviour
     public float jumpForce;
     public float gravityMultiplier = 3f;
     public float gravityCooldown;
-    public float transparentCooldown;
 
     public static CustomController controllerInstance;
 
@@ -42,7 +42,6 @@ public class CustomController : MonoBehaviour
         acceleration = new Vector3(0, 0);
         lastVelocity = new Vector3(0, 0);
         gravityCooldown = 0;
-        transparentCooldown = 0;
         rigidbody = gameObject.GetComponent<Rigidbody>();
         previousMode = mode;
 
@@ -94,8 +93,6 @@ public class CustomController : MonoBehaviour
 
         if (gravityCooldown > 0)
             gravityCooldown -= Time.deltaTime;
-        if (transparentCooldown > 0)
-            transparentCooldown -= Time.deltaTime;
 
         if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .3 )
         {
@@ -219,10 +216,10 @@ public class CustomController : MonoBehaviour
     // Handles Transparency
     void TransparentMovement()
     {
-        if (transparentCooldown <= 0)
+        if (canBeTransparent)
         {
             isTransparent = !isTransparent;
-            transparentCooldown = 1f;
+            canBeTransparent = false;
         }
         Debug.Log(mode);
         Debug.Log(previousMode);
