@@ -62,7 +62,6 @@ public class ColorChanger : MonoBehaviour
                 //don't change color on gravity
             } else
             {
-                character.GetComponent<Renderer>().material = material;
                 if (mode == CustomController.Mode.InvertGravity && character.GetComponent<CustomController>().gravityCooldown <= 0)
                 {
                     CustomController.controllerInstance.mode = mode;
@@ -75,7 +74,7 @@ public class ColorChanger : MonoBehaviour
                 {
                     CustomController.controllerInstance.mode = mode;
                     
-                    if(mode != CustomController.Mode.Transparent)
+                    if(!(mode == CustomController.Mode.Transparent  || mode == CustomController.Mode.InvertGravity))
                         character.GetComponent<Renderer>().material = material;
                 }
 
