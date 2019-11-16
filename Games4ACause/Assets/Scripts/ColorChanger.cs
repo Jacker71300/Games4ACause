@@ -58,9 +58,9 @@ public class ColorChanger : MonoBehaviour
             character.GetComponent<Renderer>().material = color;
 
             if (transform.position.y > originalPosition.y - .2f)
-                transform.position = new Vector3(transform.position.x, transform.position.y - .02f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y - (.02f * transform.up.y), transform.position.z);
         }
         else if(transform.position.y < originalPosition.y)
-            transform.position = new Vector3(transform.position.x, transform.position.y + .02f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + (.02f * transform.up.y), transform.position.z);
     }
 }
