@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CustomController : MonoBehaviour
 {
-    public enum Mode { Default, Dense, Jump, InvertGravity };
+    public enum Mode { Default, Dense, Jump, InvertGravity, Transparent };
     public bool gravityInverted = false;
+    public bool isTransparent = false;
 
     // Public variables
     public Vector3 velocity;
@@ -25,6 +26,7 @@ public class CustomController : MonoBehaviour
     private Rigidbody rigidbody;
     private Mode previousMode;
     private float gravityCooldown;
+    private float transparentCooldown;
     
 
     // Start is called before the first frame update
@@ -34,6 +36,7 @@ public class CustomController : MonoBehaviour
         acceleration = new Vector3(0, 0);
         lastVelocity = new Vector3(0, 0);
         gravityCooldown = 0;
+        transparentCooldown = 0;
         rigidbody = gameObject.GetComponent<Rigidbody>();
         previousMode = mode;
 
@@ -67,10 +70,17 @@ public class CustomController : MonoBehaviour
             case Mode.InvertGravity:
                 InvertGravityMovement();
                 break;
+
+            case Mode.Transparent:
+                TransparentMovement();
+                break;
+
         }
 
         if (gravityCooldown > 0)
             gravityCooldown -= Time.deltaTime;
+        if (transparentCooldown > 0)
+            transparentCooldown -= Time.deltaTime;
 
         if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .3 )
         {
@@ -151,6 +161,16 @@ public class CustomController : MonoBehaviour
             UnityEngine.Physics.gravity *= -1;
             gravityInverted = !gravityInverted;
             gravityCooldown = 2f;
+        }
+        mode = previousMode;
+    }
+
+    // Handles Transparency
+    void TransparentMovement()
+    {
+        if (transparentCooldown <= 0)
+        {
+            isTransparent = !isTransparent;
         }
         mode = previousMode;
     }
