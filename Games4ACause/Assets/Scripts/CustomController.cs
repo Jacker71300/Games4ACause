@@ -14,6 +14,7 @@ public class CustomController : MonoBehaviour
     public float denseDrag;
     public float jumpForce;
 
+    public static CustomController controllerInstance;
 
     // Private variables
     private Vector3 acceleration;
@@ -25,6 +26,15 @@ public class CustomController : MonoBehaviour
     {
         velocity = new Vector3(0, 0);
         acceleration = new Vector3(0, 0);
+
+        if (controllerInstance == null)
+        {
+            controllerInstance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     // Update is called once per frame
