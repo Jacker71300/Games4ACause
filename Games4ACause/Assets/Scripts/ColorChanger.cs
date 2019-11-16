@@ -38,6 +38,9 @@ public class ColorChanger : MonoBehaviour
             case CustomController.Mode.Jump:
                 color = Resources.Load("Materials/Blue", typeof(Material)) as Material;
                 break;
+            case CustomController.Mode.InvertGravity:
+                color = Resources.Load("Materials/Green", typeof(Material)) as Material;
+                break;
         }
 
         GetComponent<Renderer>().material = color;
@@ -55,7 +58,20 @@ public class ColorChanger : MonoBehaviour
         if (characterCollider.bounds.Intersects(myCollider.bounds))
         {
             CustomController.controllerInstance.mode = mode;
-            character.GetComponent<Renderer>().material = color;
+            if(mode == CustomController.Mode.InvertGravity)
+            {
+                if(character.GetComponent<CustomController>().gravityInverted && character.GetComponent<CustomController>().gravityCooldown == 0)
+                {
+                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityDown", "play");
+                } else
+                {
+                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
+                }
+            } else
+            {
+                character.GetComponent<Renderer>().material = color;
+            }
+            
 
             if (pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) < 0.98)
                 transform.position += -transform.up * depressionSpeed * Time.deltaTime;

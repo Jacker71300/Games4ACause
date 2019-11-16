@@ -25,7 +25,7 @@ public class CustomController : MonoBehaviour
     private Vector3 lastVelocity;
     private Rigidbody rigidbody;
     private Mode previousMode;
-    private float gravityCooldown;
+    public float gravityCooldown;
     private float transparentCooldown;
 
     private float cameraWidth;
