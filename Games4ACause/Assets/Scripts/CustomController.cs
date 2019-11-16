@@ -60,10 +60,16 @@ public class CustomController : MonoBehaviour
                 break;
         }
 
+        if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .1 )
+        {
+            rigidbody.velocity = new Vector3(-lastVelocity.x, rigidbody.velocity.y);
+        }
+
         rigidbody.AddForce(acceleration);
 
         rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, MAX_SPEED);
         acceleration = Vector3.zero;
+        lastVelocity = rigidbody.velocity;
     }
 
     void AddForce(Vector3 force)
@@ -99,7 +105,5 @@ public class CustomController : MonoBehaviour
         {
             UnityEngine.Physics.gravity *= gravityMultiplier;
         }
-
-        lastVelocity = rigidbody.velocity;
     }
 }
