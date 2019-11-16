@@ -5,6 +5,7 @@ using UnityEngine;
 public class CustomController : MonoBehaviour
 {
     public enum Mode { Default, Dense, Jump, InvertGravity };
+    public bool gravityInverted = false;
 
     // Public variables
     public Vector3 velocity;
@@ -22,6 +23,8 @@ public class CustomController : MonoBehaviour
     private bool hasJumped;
     private Vector3 lastVelocity;
     private Rigidbody rigidbody;
+    private Mode previousMode;
+    private float gravityCooldown;
     
 
     // Start is called before the first frame update
@@ -30,7 +33,9 @@ public class CustomController : MonoBehaviour
         velocity = new Vector3(0, 0);
         acceleration = new Vector3(0, 0);
         lastVelocity = new Vector3(0, 0);
+        gravityCooldown = 0;
         rigidbody = gameObject.GetComponent<Rigidbody>();
+        previousMode = mode;
 
         if (controllerInstance == null)
         {
@@ -64,8 +69,8 @@ public class CustomController : MonoBehaviour
                 break;
         }
 
-        if (mode != Mode.InvertGravity && UnityEngine.Physics.gravity.y > 0)
-            UnityEngine.Physics.gravity *= -1;
+        if (gravityCooldown > 0)
+            gravityCooldown -= Time.deltaTime;
 
         if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .3 )
         {
@@ -77,6 +82,7 @@ public class CustomController : MonoBehaviour
         rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, MAX_SPEED);
         acceleration = Vector3.zero;
         lastVelocity = rigidbody.velocity;
+        previousMode = mode;
     }
 
     void AddForce(Vector3 force)
@@ -100,29 +106,50 @@ public class CustomController : MonoBehaviour
     // Jump and reset the jump when hitting the ground
     void JumpMovement()
     {
-
-        if (Input.GetAxis("Jump") != 0 && !hasJumped)
+        if (gravityInverted)
         {
-            AddForce(new Vector3(0, jumpForce));
-            hasJumped = true;
+            if (Input.GetAxis("Jump") != 0 && !hasJumped)
+            {
+                AddForce(new Vector3(0, jumpForce));
+                hasJumped = true;
+            }
+            else if ((hasJumped && rigidbody.velocity.y - lastVelocity.y < -1 && lastVelocity.y > 0 && rigidbody.velocity.y <= 0) || (rigidbody.velocity.y == 0 && lastVelocity.y == 0))
+            {
+                UnityEngine.Physics.gravity /= gravityMultiplier;
+                hasJumped = false;
+            }
+            else if (hasJumped && rigidbody.velocity.y >= 0 && lastVelocity.y < 0)
+            {
+                UnityEngine.Physics.gravity *= gravityMultiplier;
+            }
         }
-        else if (hasJumped && rigidbody.velocity.y - lastVelocity.y > 1 && lastVelocity.y < 0 && rigidbody.velocity.y <= 0) 
+        else
         {
-            UnityEngine.Physics.gravity /= gravityMultiplier;
-            hasJumped = false;
-        }
-        else if(hasJumped && rigidbody.velocity.y <= 0 && lastVelocity.y > 0)
-        {
-            UnityEngine.Physics.gravity *= gravityMultiplier;
+            if (Input.GetAxis("Jump") != 0 && !hasJumped)
+            {
+                AddForce(new Vector3(0, jumpForce));
+                hasJumped = true;
+            }
+            else if (hasJumped && rigidbody.velocity.y - lastVelocity.y > 1 && lastVelocity.y < 0 && rigidbody.velocity.y <= 0)
+            {
+                UnityEngine.Physics.gravity /= gravityMultiplier;
+                hasJumped = false;
+            }
+            else if (hasJumped && rigidbody.velocity.y <= 0 && lastVelocity.y > 0)
+            {
+                UnityEngine.Physics.gravity *= gravityMultiplier;
+            }
         }
     }
 
     // Inverts gravity
     void InvertGravityMovement()
     {
-        if (UnityEngine.Physics.gravity.y < 0)
+        if (gravityCooldown <= 0)
+        {
             UnityEngine.Physics.gravity *= -1;
-
-        DefaultMovement();
+            gravityCooldown = 2f;
+        }
+        mode = previousMode;
     }
 }
