@@ -158,6 +158,26 @@ public class SceneSelector : MonoBehaviour
                 }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
             }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (UnityEngine.Physics.gravity.y > 0)
+                {
+                    UnityEngine.Physics.gravity *= -1;
+                }
+
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
+    public void QuitGame()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
         }
     }
 }
