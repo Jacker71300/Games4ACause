@@ -101,10 +101,14 @@ public class SceneSelector : MonoBehaviour
                 SceneManager.LoadScene(0);
             }
         }
-        else if(canvasInstantiated == false)
+
+        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
         {
-            endLevelImage = Instantiate(endLevelImage, new Vector3(0, 0, -9), Quaternion.identity);
-            canvasInstantiated = true;
+            if (canvasInstantiated == false)
+            {
+                endLevelImage = Instantiate(endLevelImage, new Vector3(0, 0, -9), Quaternion.identity);
+                canvasInstantiated = true;
+            }
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -116,6 +120,8 @@ public class SceneSelector : MonoBehaviour
 
     public void NextLevel()
     {
+
+        Debug.Log("ye");
             if (UnityEngine.Physics.gravity.y > 0)
             {
                 UnityEngine.Physics.gravity *= -1;
@@ -146,7 +152,6 @@ public class SceneSelector : MonoBehaviour
 
     public void FailLevel()
     {
-            Debug.Log(character.transform.position.y);
         if ((character.transform.position.y < (Camera.main.orthographicSize * -1) && UnityEngine.Physics.gravity.y < 0) ||
             (character.transform.position.y > Camera.main.orthographicSize && UnityEngine.Physics.gravity.y > 0))
         {
