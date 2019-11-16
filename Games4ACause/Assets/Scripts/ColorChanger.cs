@@ -105,6 +105,13 @@ public class ColorChanger : MonoBehaviour
 
     private float pathPercent(Vector3 currentPoint, Vector3 p1, Vector3 p2)
     {
-        return (currentPoint - p1).magnitude / (p2 - p1).magnitude;
+        if (Vector3.Dot((currentPoint - p1).normalized, (p2 - p1).normalized) >= 0.99)
+        {
+            return (currentPoint - p1).magnitude / (p2 - p1).magnitude;
+        } else
+        {
+            return -(currentPoint - p1).magnitude / (p2 - p1).magnitude;
+        }
+        
     }
 }
