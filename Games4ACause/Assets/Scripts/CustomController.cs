@@ -13,6 +13,7 @@ public class CustomController : MonoBehaviour
     public float drag;
     public float denseDrag;
     public float jumpForce;
+    public float gravityMultiplier = 3f;
 
     public static CustomController controllerInstance;
 
@@ -20,12 +21,16 @@ public class CustomController : MonoBehaviour
     private Vector3 acceleration;
     private bool hasJumped;
     private Vector3 lastVelocity;
+    private Rigidbody rigidbody;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         velocity = new Vector3(0, 0);
         acceleration = new Vector3(0, 0);
+        lastVelocity = new Vector3(0, 0);
+        rigidbody = gameObject.GetComponent<Rigidbody>();
 
         if (controllerInstance == null)
         {
@@ -55,9 +60,9 @@ public class CustomController : MonoBehaviour
                 break;
         }
 
-        gameObject.GetComponent<Rigidbody>().AddForce(acceleration);
+        rigidbody.AddForce(acceleration);
 
-        gameObject.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(gameObject.GetComponent<Rigidbody>().velocity, MAX_SPEED);
+        rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, MAX_SPEED);
         acceleration = Vector3.zero;
     }
 
@@ -68,13 +73,13 @@ public class CustomController : MonoBehaviour
 
     void DefaultMovement()
     {
-        gameObject.GetComponent<Rigidbody>().drag = drag;
-        AddForce(new Vector3(Input.GetAxis("Horizontal") * MAX_SPEED / gameObject.GetComponent<Rigidbody>().mass, 0));
+        rigidbody.drag = drag;
+        AddForce(new Vector3(Input.GetAxis("Horizontal") * MAX_SPEED / rigidbody.mass, 0));
     }
 
     void DenseMovement()
     {
-        gameObject.GetComponent<Rigidbody>().drag = denseDrag;
+        rigidbody.drag = denseDrag;
     }
 
     void JumpMovement()
@@ -85,11 +90,16 @@ public class CustomController : MonoBehaviour
             AddForce(new Vector3(0, jumpForce));
             hasJumped = true;
         }
-        else if (hasJumped && gameObject.GetComponent<Rigidbody>().velocity.y == 0 && lastVelocity.y < 0) 
+        else if (hasJumped && rigidbody.velocity.y == 0 && lastVelocity.y < 0) 
         {
+            UnityEngine.Physics.gravity /= gravityMultiplier;
             hasJumped = false;
         }
+        else if(hasJumped && rigidbody.velocity.y <= 0 && lastVelocity.y > 0)
+        {
+            UnityEngine.Physics.gravity *= gravityMultiplier;
+        }
 
-        lastVelocity = gameObject.GetComponent<Rigidbody>().velocity;
+        lastVelocity = rigidbody.velocity;
     }
 }
