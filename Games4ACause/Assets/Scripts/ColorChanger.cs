@@ -19,7 +19,8 @@ public class ColorChanger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterCollider = GameObject.Find("Character").GetComponent<Collider>();
+        character = GameObject.Find("Character");
+        characterCollider = character.GetComponent<Collider>();
 
         switch (mode)
         {
@@ -48,7 +49,8 @@ public class ColorChanger : MonoBehaviour
         {
             CustomController.controllerInstance.mode = mode;
             character.GetComponent<Renderer>().material = color;
-            
+
+            transform.position = new Vector3(transform.position.x, gameObject.GetComponent<Collider>().bounds.center.y - .2f, transform.position.z);
         }
 
     }
