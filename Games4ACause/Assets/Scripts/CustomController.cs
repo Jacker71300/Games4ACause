@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomController : MonoBehaviour
 {
-    enum Mode { Default, Dense, Jump };
+    public enum Mode { Default, Dense, Jump };
 
     // Public variables
     public Vector3 velocity;
