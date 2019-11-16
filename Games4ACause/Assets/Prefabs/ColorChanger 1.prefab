@@ -108,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 0
   character: {fileID: 0}
+  depressionSpeed: 0.4
 --- !u!114 &4640095462513518811
 MonoBehaviour:
   m_ObjectHideFlags: 0
