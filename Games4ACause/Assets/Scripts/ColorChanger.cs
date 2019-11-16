@@ -36,9 +36,11 @@ public class ColorChanger : MonoBehaviour
                 color = Resources.Load("Materials/Red", typeof(Material)) as Material;
                 break;
             case CustomController.Mode.Jump:
-                color = Resources.Load("Materials/White", typeof(Material)) as Material;
+                color = Resources.Load("Materials/Blue", typeof(Material)) as Material;
                 break;
         }
+
+        GetComponent<Renderer>().material = color;
 
     }
 
