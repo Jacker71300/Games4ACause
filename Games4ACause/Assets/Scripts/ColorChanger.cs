@@ -60,13 +60,14 @@ public class ColorChanger : MonoBehaviour
             if (character.GetComponent<CustomController>().mode == CustomController.Mode.InvertGravity)
             {
                 //don't change color on gravity
-            } else
+            }
+            else
             {
                 if (mode == CustomController.Mode.InvertGravity && character.GetComponent<CustomController>().gravityCooldown <= 0)
                 {
                     CustomController.controllerInstance.mode = mode;
                 }
-                else if (mode == CustomController.Mode.Transparent && character.GetComponent<CustomController>().transparentCooldown <= 0)
+                else if (mode == CustomController.Mode.Transparent && character.GetComponent<CustomController>().canBeTransparent)
                 {
                     CustomController.controllerInstance.mode = mode;
                 }
@@ -81,7 +82,7 @@ public class ColorChanger : MonoBehaviour
                 Color color = character.GetComponent<Renderer>().material.color;
 
                 if (character.GetComponent<CustomController>().isTransparent)
-                {                 
+                {
                     character.GetComponent<Renderer>().material.SetColor("Color", new Color(color.r, color.g, color.b, .5f));
                 }
                 else
@@ -93,8 +94,13 @@ public class ColorChanger : MonoBehaviour
             if (pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) < 0.98)
                 transform.position += -transform.up * depressionSpeed * Time.deltaTime;
         }
-        else if(pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) > 0.02)
+        else if (pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) > 0.02)
+        {
+            if (mode == CustomController.Mode.Transparent)
+                character.GetComponent<CustomController>().canBeTransparent = true;
             transform.position += transform.up * depressionSpeed * Time.deltaTime;
+        }
+
     }
 
     private float pathPercent(Vector3 currentPoint, Vector3 p1, Vector3 p2)

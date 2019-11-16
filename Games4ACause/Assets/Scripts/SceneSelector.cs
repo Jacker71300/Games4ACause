@@ -12,6 +12,15 @@ public class SceneSelector : MonoBehaviour
 
     public Canvas titleScreen;
 
+    private GameObject character;
+
+    public Canvas youWin;
+
+    public Canvas youLose;
+
+    public bool win;
+    public bool lose;
+
     //public Canvas titleScreen;
 
 
@@ -19,6 +28,10 @@ public class SceneSelector : MonoBehaviour
     void Start()
     {
         canvasInstantiated = false;
+        win = false;
+        lose = false;
+
+        character = GameObject.Find("Character");
 
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
@@ -49,40 +62,69 @@ public class SceneSelector : MonoBehaviour
             TitleLevel();
         }
 
+        if (win)
+        {
+            EndLevel();
+        }
+
         RestartLevel();
+        FailLevel();
     }
 
     public void EndLevel()
     {
-        if (canvasInstantiated == false)
+        if (SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCount)
+        {
+
+            Debug.Log("AHHAHAH");
+            if (win == false)
+            {
+                youWin = Instantiate(youWin, new Vector3(0, 0, -9), Quaternion.identity);
+                win = true;
+            }
+
+
+            if (UnityEngine.Physics.gravity.y > 0)
+            {
+                UnityEngine.Physics.gravity *= -1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+        else if(canvasInstantiated == false)
         {
             endLevelImage = Instantiate(endLevelImage, new Vector3(0, 0, -9), Quaternion.identity);
             canvasInstantiated = true;
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                NextLevel();
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            NextLevel();
-        }
     }
 
     public void NextLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex + 1 > SceneManager.GetActiveScene().buildIndex + 1)
-        {
+            if (UnityEngine.Physics.gravity.y > 0)
+            {
+                UnityEngine.Physics.gravity *= -1;
+            }
 
-        }
-        else
-        {
-            Debug.Log("YES");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
     }
 
     public void RestartLevel()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            if (UnityEngine.Physics.gravity.y > 0)
+            {
+                UnityEngine.Physics.gravity *= -1;
+            }
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
@@ -92,6 +134,30 @@ public class SceneSelector : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             Destroy(GameObject.Find("TitlePage(Clone)"));
+        }
+    }
+
+    public void FailLevel()
+    {
+            Debug.Log(character.transform.position.y);
+        if ((character.transform.position.y < (Camera.main.orthographicSize * -1) && UnityEngine.Physics.gravity.y < 0) ||
+            (character.transform.position.y > Camera.main.orthographicSize && UnityEngine.Physics.gravity.y > 0))
+        {
+            
+            if (!lose)
+            {
+                youLose = Instantiate(youLose, new Vector3(0, 0, -9), Quaternion.identity);
+                lose = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                if (UnityEngine.Physics.gravity.y > 0)
+                {
+                    UnityEngine.Physics.gravity *= -1;
+                }
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+            }
         }
     }
 }
