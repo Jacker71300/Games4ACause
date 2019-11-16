@@ -16,6 +16,8 @@ public class CustomController : MonoBehaviour
     public float denseDrag;
     public float jumpForce;
     public float gravityMultiplier = 3f;
+    public float gravityCooldown;
+    public float transparentCooldown;
 
     public static CustomController controllerInstance;
 
@@ -193,6 +195,26 @@ public class CustomController : MonoBehaviour
             }
         }
         mode = previousMode;
+
+        switch (mode)
+        {
+            case Mode.Default:
+                DefaultMovement();
+                break;
+
+            case Mode.Dense:
+                DenseMovement();
+                break;
+
+            case Mode.Jump:
+                JumpMovement();
+                break;
+
+            case Mode.Transparent:
+                TransparentMovement();
+                break;
+
+        }
     }
 
     // Handles Transparency
@@ -201,8 +223,30 @@ public class CustomController : MonoBehaviour
         if (transparentCooldown <= 0)
         {
             isTransparent = !isTransparent;
+            transparentCooldown = 2f;
         }
+        Debug.Log(mode);
+        Debug.Log(previousMode);
         mode = previousMode;
+
+        switch (mode)
+        {
+            case Mode.Default:
+                DefaultMovement();
+                break;
+
+            case Mode.Dense:
+                DenseMovement();
+                break;
+
+            case Mode.Jump:
+                JumpMovement();
+                break;
+
+            case Mode.InvertGravity:
+                InvertGravityMovement();
+                break; 
+        }
     }
 
     private void BounceOffCameraEdge()
