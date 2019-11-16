@@ -96,7 +96,7 @@ public class CustomController : MonoBehaviour
             AddForce(new Vector3(0, jumpForce));
             hasJumped = true;
         }
-        else if (hasJumped && rigidbody.velocity.y > -.1 && lastVelocity.y < 0) 
+        else if (hasJumped && rigidbody.velocity.y - lastVelocity.y > 1 && lastVelocity.y < 0 && rigidbody.velocity.y <= 0) 
         {
             UnityEngine.Physics.gravity /= gravityMultiplier;
             hasJumped = false;
