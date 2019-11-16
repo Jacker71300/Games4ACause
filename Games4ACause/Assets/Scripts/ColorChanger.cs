@@ -60,13 +60,7 @@ public class ColorChanger : MonoBehaviour
             CustomController.controllerInstance.mode = mode;
             if(mode == CustomController.Mode.InvertGravity)
             {
-                if(character.GetComponent<CustomController>().gravityInverted && character.GetComponent<CustomController>().gravityCooldown == 0)
-                {
-                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityDown", "play");
-                } else
-                {
-                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
-                }
+                //don't change color on gravity
             } else
             {
                 character.GetComponent<Renderer>().material = color;
