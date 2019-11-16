@@ -286,7 +286,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1016471229}
-  - component: {fileID: 1016471228}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -294,18 +293,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1016471228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016471227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11ad8c386af6da14ab4ae9e0a525e4ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1016471229
 Transform:
   m_ObjectHideFlags: 0
@@ -487,6 +474,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2501120852779688749, guid: 9e356c0fabb723548a95afac431705d1,
+        type: 3}
+      propertyPath: mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501120852779688749, guid: 9e356c0fabb723548a95afac431705d1,
+        type: 3}
+      propertyPath: MAX_SPEED
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501120852779688749, guid: 9e356c0fabb723548a95afac431705d1,
+        type: 3}
+      propertyPath: drag
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7725120661400516616, guid: 9e356c0fabb723548a95afac431705d1,
         type: 3}
       propertyPath: m_Name
@@ -546,6 +548,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6134905527021268531, guid: 9e356c0fabb723548a95afac431705d1,
+        type: 3}
+      propertyPath: m_Drag
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e356c0fabb723548a95afac431705d1, type: 3}

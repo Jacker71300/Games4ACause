@@ -8,9 +8,10 @@ public class CustomController : MonoBehaviour
 
     // Public variables
     public Vector3 velocity;
-    Mode mode = Mode.Default;
+    public Mode mode = Mode.Default;
     public float MAX_SPEED;
-    public float mass;
+    public float drag;
+    public float denseDrag;
 
 
     // Private variables
@@ -42,10 +43,9 @@ public class CustomController : MonoBehaviour
                 break;
         }
 
-        velocity = acceleration * Time.deltaTime;
-        velocity = Vector3.ClampMagnitude(velocity, MAX_SPEED);
-        gameObject.transform.position = velocity * Time.deltaTime;
+        gameObject.GetComponent<Rigidbody>().AddForce(acceleration);
 
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(gameObject.GetComponent<Rigidbody>().velocity, MAX_SPEED);
         acceleration = Vector3.zero;
     }
 
@@ -56,12 +56,13 @@ public class CustomController : MonoBehaviour
 
     void DefaultMovement()
     {
-        AddForce(new Vector3(Input.GetAxis("x") * MAX_SPEED / mass, 0));
+        gameObject.GetComponent<Rigidbody>().drag = drag;
+        AddForce(new Vector3(Input.GetAxis("Horizontal") * MAX_SPEED / gameObject.GetComponent<Rigidbody>().mass, 0));
     }
 
     void DenseMovement()
     {
-        AddForce(new Vector3(-velocity.normalized.x * mass / MAX_SPEED, 0));
+        gameObject.GetComponent<Rigidbody>().drag = denseDrag;
     }
 
     void JumpMovement()
