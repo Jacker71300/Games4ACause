@@ -5,16 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class SceneSelector : MonoBehaviour
 {
-    public GameObject endLevelImage;
+    public Canvas endLevelImage;
     public static SceneSelector sceneInstance;
+
+    private bool canvasInstantiated;
+
+    public Canvas titleScreen;
+
+    //public Canvas titleScreen;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        endLevelImage = Instantiate(endLevelImage, new Vector3(0, -0.72f, -9), Quaternion.identity);
-        endLevelImage.SetActive(false);
+        canvasInstantiated = false;
 
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            titleScreen = Instantiate(titleScreen, Vector3.zero, Quaternion.identity);
+        }
 
         if (sceneInstance == null)
         {
@@ -30,9 +39,14 @@ public class SceneSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (endLevelImage.activeInHierarchy)
+        if (canvasInstantiated)
         {
             EndLevel();
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            TitleLevel();
         }
 
         RestartLevel();
@@ -40,7 +54,11 @@ public class SceneSelector : MonoBehaviour
 
     public void EndLevel()
     {
-        endLevelImage.SetActive(true);
+        if (canvasInstantiated == false)
+        {
+            endLevelImage = Instantiate(endLevelImage, new Vector3(0, 0, -9), Quaternion.identity);
+            canvasInstantiated = true;
+        }
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -69,7 +87,11 @@ public class SceneSelector : MonoBehaviour
         }
     }
 
-    public void Menu()
+    public void TitleLevel()
     {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Destroy(GameObject.Find("TitlePage(Clone)"));
+        }
     }
 }
