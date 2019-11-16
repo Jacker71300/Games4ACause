@@ -12,11 +12,13 @@ public class CustomController : MonoBehaviour
     public float MAX_SPEED;
     public float drag;
     public float denseDrag;
+    public float jumpForce;
 
 
     // Private variables
     private Vector3 acceleration;
     private bool hasJumped;
+    private Vector3 lastVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -68,5 +70,16 @@ public class CustomController : MonoBehaviour
     void JumpMovement()
     {
 
+        if (Input.GetAxis("Jump") != 0 && !hasJumped)
+        {
+            AddForce(new Vector3(0, jumpForce));
+            hasJumped = true;
+        }
+        else if (hasJumped && gameObject.GetComponent<Rigidbody>().velocity.y == 0 && lastVelocity.y < 0) 
+        {
+            hasJumped = false;
+        }
+
+        lastVelocity = gameObject.GetComponent<Rigidbody>().velocity;
     }
 }

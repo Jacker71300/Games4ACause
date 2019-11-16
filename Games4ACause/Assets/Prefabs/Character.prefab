@@ -106,8 +106,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0, z: 0}
-  MAX_SPEED: 5
-  mass: 1
+  mode: 0
+  MAX_SPEED: 10
+  drag: 0.4
+  denseDrag: 0.6
+  jumpForce: 15
 --- !u!54 &6134905527021268531
 Rigidbody:
   m_ObjectHideFlags: 0
