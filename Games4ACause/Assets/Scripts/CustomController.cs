@@ -192,10 +192,5 @@ public class CustomController : MonoBehaviour
             transform.position = new Vector3(cameraWidth, transform.position.y);
             rigidbody.velocity = new Vector3(-rigidbody.velocity.x, rigidbody.velocity.y);
         }
-        if (transform.position.y > cameraHeight)
-        {
-            transform.position = new Vector3(transform.position.x, cameraHeight);
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, -rigidbody.velocity.y);
-        }
     }
 }
