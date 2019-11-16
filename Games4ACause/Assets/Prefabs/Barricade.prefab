@@ -134,4 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcbb1956d5401e43981ec8d722d3a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystems: []
+  particleSystems:
+  - name: break
+    particleSystem: {fileID: 0}
