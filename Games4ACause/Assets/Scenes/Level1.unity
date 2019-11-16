@@ -547,6 +547,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2501120852779688749, guid: 9e356c0fabb723548a95afac431705d1,
+        type: 3}
+      propertyPath: denseDrag
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501120852779688749, guid: 9e356c0fabb723548a95afac431705d1,
+        type: 3}
+      propertyPath: drag
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2501120852779688749, guid: 9e356c0fabb723548a95afac431705d1,
+        type: 3}
+      propertyPath: MAX_SPEED
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e356c0fabb723548a95afac431705d1, type: 3}
 --- !u!1001 &2728653516554933126
@@ -615,6 +630,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1377475942609563256, guid: 889c969d1a13372448eeb9b23d97f19c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: af083b559cbaaf84a8995603f3833a3b, type: 2}
+    - target: {fileID: 4223869483784469027, guid: 889c969d1a13372448eeb9b23d97f19c,
+        type: 3}
+      propertyPath: mode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 889c969d1a13372448eeb9b23d97f19c, type: 3}
