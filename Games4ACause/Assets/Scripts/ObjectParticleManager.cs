@@ -22,7 +22,6 @@ public class ObjectParticleManager : MonoBehaviour
         foreach(NamedParticleSystem ps in particleSystems)
         {
             var main = ps.particleSystem.main;
-            main.playOnAwake = false;
             particleSystemDict[ps.name] = ps.particleSystem;
         }
     }
