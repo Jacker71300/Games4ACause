@@ -25,6 +25,7 @@ public class ColorChanger : MonoBehaviour
         character = GameObject.Find("Character");
         characterCollider = character.GetComponent<Collider>();
         myCollider = gameObject.GetComponent<Collider>();
+        originalPosition = gameObject.transform.position;
 
         switch (mode)
         {
