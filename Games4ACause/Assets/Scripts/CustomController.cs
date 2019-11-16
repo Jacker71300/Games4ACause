@@ -16,6 +16,8 @@ public class CustomController : MonoBehaviour
     public float denseDrag;
     public float jumpForce;
     public float gravityMultiplier = 3f;
+    public float gravityCooldown;
+    public float transparentCooldown;
 
     public static CustomController controllerInstance;
 
@@ -25,8 +27,7 @@ public class CustomController : MonoBehaviour
     private Vector3 lastVelocity;
     private Rigidbody rigidbody;
     private Mode previousMode;
-    public float gravityCooldown;
-    private float transparentCooldown;
+
 
     private float cameraWidth;
     private float cameraHeight;
@@ -85,9 +86,9 @@ public class CustomController : MonoBehaviour
         Color currentColor = gameObject.GetComponent<Renderer>().material.color;
 
         if (isTransparent)
-            gameObject.GetComponent<Renderer>().material.color = new Color(currentColor.r, currentColor.b, currentColor.g, .5f);
+            gameObject.GetComponent<Renderer>().material.color = new Color(currentColor.r, currentColor.g, currentColor.b, .5f);
         else
-            gameObject.GetComponent<Renderer>().material.color = new Color(currentColor.r, currentColor.b, currentColor.g, 1f);
+            gameObject.GetComponent<Renderer>().material.color = new Color(currentColor.r, currentColor.g, currentColor.b, 1f);
 
 
         if (gravityCooldown > 0)
@@ -183,6 +184,26 @@ public class CustomController : MonoBehaviour
             gravityCooldown = 2f;
         }
         mode = previousMode;
+
+        switch (mode)
+        {
+            case Mode.Default:
+                DefaultMovement();
+                break;
+
+            case Mode.Dense:
+                DenseMovement();
+                break;
+
+            case Mode.Jump:
+                JumpMovement();
+                break;
+
+            case Mode.Transparent:
+                TransparentMovement();
+                break;
+
+        }
     }
 
     // Handles Transparency
@@ -191,8 +212,30 @@ public class CustomController : MonoBehaviour
         if (transparentCooldown <= 0)
         {
             isTransparent = !isTransparent;
+            transparentCooldown = 2f;
         }
+        Debug.Log(mode);
+        Debug.Log(previousMode);
         mode = previousMode;
+
+        switch (mode)
+        {
+            case Mode.Default:
+                DefaultMovement();
+                break;
+
+            case Mode.Dense:
+                DenseMovement();
+                break;
+
+            case Mode.Jump:
+                JumpMovement();
+                break;
+
+            case Mode.InvertGravity:
+                InvertGravityMovement();
+                break; 
+        }
     }
 
     private void BounceOffCameraEdge()
