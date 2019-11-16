@@ -64,7 +64,7 @@ public class CustomController : MonoBehaviour
                 break;
         }
 
-        if (mode != Mode.InvertGravity && UnityEngine.Physics.gravity.y < 0)
+        if (mode != Mode.InvertGravity && UnityEngine.Physics.gravity.y > 0)
             UnityEngine.Physics.gravity *= -1;
 
         if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .3 )
@@ -120,7 +120,7 @@ public class CustomController : MonoBehaviour
     // Inverts gravity
     void InvertGravityMovement()
     {
-        if (UnityEngine.Physics.gravity.y > 0)
+        if (UnityEngine.Physics.gravity.y < 0)
             UnityEngine.Physics.gravity *= -1;
 
         DefaultMovement();
