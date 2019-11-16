@@ -27,6 +27,12 @@ public class Barricade : MonoBehaviour
     {
         if(characterCollider.bounds.Intersects(myCollider.bounds) && character.GetComponent<CustomController>().mode == CustomController.Mode.Dense)
         {
+            gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("break", "play");
+
+            //save the children!!!!!
+            //(make the particle system not immediately disappear)
+            foreach (Transform child in transform) child.parent = null;
+        
             Destroy(gameObject);
         }
     }
