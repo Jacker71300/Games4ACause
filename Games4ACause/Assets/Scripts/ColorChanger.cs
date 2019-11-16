@@ -17,7 +17,7 @@ public class ColorChanger : MonoBehaviour
 
     private Vector3 originalPosition;
 
-
+    public float depressionSpeed;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +38,9 @@ public class ColorChanger : MonoBehaviour
             case CustomController.Mode.Jump:
                 color = Resources.Load("Materials/Blue", typeof(Material)) as Material;
                 break;
+            case CustomController.Mode.InvertGravity:
+                color = Resources.Load("Materials/Green", typeof(Material)) as Material;
+                break;
         }
 
         GetComponent<Renderer>().material = color;
@@ -55,12 +58,30 @@ public class ColorChanger : MonoBehaviour
         if (characterCollider.bounds.Intersects(myCollider.bounds))
         {
             CustomController.controllerInstance.mode = mode;
-            character.GetComponent<Renderer>().material = color;
+            if(mode == CustomController.Mode.InvertGravity)
+            {
+                if(character.GetComponent<CustomController>().gravityInverted && character.GetComponent<CustomController>().gravityCooldown == 0)
+                {
+                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityDown", "play");
+                } else
+                {
+                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
+                }
+            } else
+            {
+                character.GetComponent<Renderer>().material = color;
+            }
+            
 
-            if (transform.position.y > originalPosition.y - .2f)
-                transform.position = new Vector3(transform.position.x, transform.position.y - (.02f * transform.up.y), transform.position.z);
+            if (pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) < 0.98)
+                transform.position += -transform.up * depressionSpeed * Time.deltaTime;
         }
-        else if(transform.position.y < originalPosition.y)
-            transform.position = new Vector3(transform.position.x, transform.position.y + (.02f * transform.up.y), transform.position.z);
+        else if(pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) > 0.02)
+            transform.position += transform.up * depressionSpeed * Time.deltaTime;
+    }
+
+    private float pathPercent(Vector3 currentPoint, Vector3 p1, Vector3 p2)
+    {
+        return (currentPoint - p1).magnitude / (p2 - p1).magnitude;
     }
 }
