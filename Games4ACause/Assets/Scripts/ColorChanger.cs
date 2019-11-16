@@ -57,7 +57,7 @@ public class ColorChanger : MonoBehaviour
     {
         if (characterCollider.bounds.Intersects(myCollider.bounds))
         {
-            if (character.GetComponent<CustomController>().mode != mode)
+            if (character.GetComponent<CustomController>().mode == CustomController.Mode.InvertGravity)
             {
                 //don't change color on gravity
             } else
