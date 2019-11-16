@@ -19,7 +19,8 @@ public class ColorChanger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterCollider = GameObject.Find("Character").GetComponent<Collider>();
+        character = GameObject.Find("Character");
+        characterCollider = character.GetComponent<Collider>();
 
         switch (mode)
         {
