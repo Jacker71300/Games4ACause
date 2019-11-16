@@ -57,20 +57,15 @@ public class ColorChanger : MonoBehaviour
     {
         if (characterCollider.bounds.Intersects(myCollider.bounds))
         {
-            if (character.GetComponent<CustomController>().mode != mode)
+            if (character.GetComponent<CustomController>().mode == CustomController.Mode.InvertGravity)
             {
+                //don't change color on gravity
+            } else
+            {
+                character.GetComponent<Renderer>().material = material;
                 if (mode == CustomController.Mode.InvertGravity && character.GetComponent<CustomController>().gravityCooldown <= 0)
                 {
                     CustomController.controllerInstance.mode = mode;
-
-                    if (character.GetComponent<CustomController>().gravityInverted)
-                    {
-                        gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityDown", "play");
-                    }
-                    else
-                    {
-                        gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
-                    }
                 }
                 else if (mode == CustomController.Mode.Transparent && character.GetComponent<CustomController>().transparentCooldown <= 0)
                 {

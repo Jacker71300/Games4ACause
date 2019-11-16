@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6567676864059748190}
   - component: {fileID: 6138663189717986497}
   - component: {fileID: 5883087290035836429}
+  - component: {fileID: 2329667077325825848}
   - component: {fileID: 4295351366352739033}
   m_Layer: 0
   m_Name: Flag
@@ -78,6 +79,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2329667077325825848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470719845045825570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5496b09655cac8a4c9e5a151478441de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &4295351366352739033
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class CustomController : MonoBehaviour
     private Vector3 lastVelocity;
     private Rigidbody rigidbody;
     private Mode previousMode;
-
+    private GameObject worldParticles;
 
     private float cameraWidth;
     private float cameraHeight;
@@ -36,6 +36,7 @@ public class CustomController : MonoBehaviour
     {
         cameraHeight = Camera.main.orthographicSize;
         cameraWidth = cameraHeight * Camera.main.aspect;
+        worldParticles = GameObject.Find("WorldParticles");
 
         velocity = new Vector3(0, 0);
         acceleration = new Vector3(0, 0);
@@ -183,6 +184,14 @@ public class CustomController : MonoBehaviour
             UnityEngine.Physics.gravity *= -1;
             gravityInverted = !gravityInverted;
             gravityCooldown = 1f;
+            if (gravityInverted)
+            {
+                worldParticles.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
+            }
+            else
+            {
+                worldParticles.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityDown", "play");
+            }
         }
         mode = previousMode;
 
