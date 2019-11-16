@@ -161,6 +161,7 @@ public class CustomController : MonoBehaviour
         {
             if (Input.GetAxis("Jump") != 0 && !hasJumped)
             {
+                Debug.Log("jump");
                 AddForce(new Vector3(0, jumpForce));
                 rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f);
                 hasJumped = true;
