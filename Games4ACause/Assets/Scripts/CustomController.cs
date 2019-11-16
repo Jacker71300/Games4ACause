@@ -106,11 +106,12 @@ public class CustomController : MonoBehaviour
     // Jump and reset the jump when hitting the ground
     void JumpMovement()
     {
+        // Jump if inverted
         if (gravityInverted)
         {
             if (Input.GetAxis("Jump") != 0 && !hasJumped)
             {
-                AddForce(new Vector3(0, jumpForce));
+                AddForce(new Vector3(0, -jumpForce));
                 hasJumped = true;
             }
             else if ((hasJumped && rigidbody.velocity.y - lastVelocity.y < -1 && lastVelocity.y > 0 && rigidbody.velocity.y <= 0) || (rigidbody.velocity.y == 0 && lastVelocity.y == 0))
@@ -123,7 +124,7 @@ public class CustomController : MonoBehaviour
                 UnityEngine.Physics.gravity *= gravityMultiplier;
             }
         }
-        else
+        else // Jump normally
         {
             if (Input.GetAxis("Jump") != 0 && !hasJumped)
             {
@@ -148,6 +149,7 @@ public class CustomController : MonoBehaviour
         if (gravityCooldown <= 0)
         {
             UnityEngine.Physics.gravity *= -1;
+            gravityInverted = !gravityInverted;
             gravityCooldown = 2f;
         }
         mode = previousMode;
