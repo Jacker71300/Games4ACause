@@ -60,7 +60,7 @@ public class CustomController : MonoBehaviour
                 break;
         }
 
-        if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .1 )
+        if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .3 )
         {
             rigidbody.velocity = new Vector3(-lastVelocity.x, rigidbody.velocity.y);
         }
@@ -96,7 +96,7 @@ public class CustomController : MonoBehaviour
             AddForce(new Vector3(0, jumpForce));
             hasJumped = true;
         }
-        else if (hasJumped && rigidbody.velocity.y == 0 && lastVelocity.y < 0) 
+        else if (hasJumped && rigidbody.velocity.y > -.1 && lastVelocity.y < 0) 
         {
             UnityEngine.Physics.gravity /= gravityMultiplier;
             hasJumped = false;

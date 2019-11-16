@@ -292,7 +292,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1016471229}
-  - component: {fileID: 1016471228}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -300,18 +299,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1016471228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016471227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11ad8c386af6da14ab4ae9e0a525e4ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1016471229
 Transform:
   m_ObjectHideFlags: 0
@@ -484,6 +471,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4366945646117792272, guid: 09d0fe1eb2d8c124495a9dca16165142,
+        type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 441988888}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d0fe1eb2d8c124495a9dca16165142, type: 3}
 --- !u!1001 &651772233351231171
