@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomController : MonoBehaviour
 {
-    public enum Mode { Default, Dense, Jump };
+    public enum Mode { Default, Dense, Jump, InvertGravity };
 
     // Public variables
     public Vector3 velocity;
@@ -58,9 +58,16 @@ public class CustomController : MonoBehaviour
             case Mode.Jump:
                 JumpMovement();
                 break;
+
+            case Mode.InvertGravity:
+                InvertGravityMovement();
+                break;
         }
 
-        if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .1 )
+        if (mode != Mode.InvertGravity && UnityEngine.Physics.gravity.y > 0)
+            UnityEngine.Physics.gravity *= -1;
+
+        if(Mathf.Abs(lastVelocity.x) > 1 && Mathf.Abs(rigidbody.velocity.x) < .3 )
         {
             rigidbody.velocity = new Vector3(-lastVelocity.x, rigidbody.velocity.y);
         }
@@ -77,17 +84,20 @@ public class CustomController : MonoBehaviour
         acceleration += force;
     }
 
+    // Allow normal movement
     void DefaultMovement()
     {
         rigidbody.drag = drag;
         AddForce(new Vector3(Input.GetAxis("Horizontal") * MAX_SPEED / rigidbody.mass, 0));
     }
 
+    // Create the extra friction from the dense property
     void DenseMovement()
     {
         rigidbody.drag = denseDrag;
     }
 
+    // Jump and reset the jump when hitting the ground
     void JumpMovement()
     {
 
@@ -96,7 +106,7 @@ public class CustomController : MonoBehaviour
             AddForce(new Vector3(0, jumpForce));
             hasJumped = true;
         }
-        else if (hasJumped && rigidbody.velocity.y == 0 && lastVelocity.y < 0) 
+        else if (hasJumped && rigidbody.velocity.y - lastVelocity.y > 1 && lastVelocity.y < 0 && rigidbody.velocity.y <= 0) 
         {
             UnityEngine.Physics.gravity /= gravityMultiplier;
             hasJumped = false;
@@ -105,5 +115,14 @@ public class CustomController : MonoBehaviour
         {
             UnityEngine.Physics.gravity *= gravityMultiplier;
         }
+    }
+
+    // Inverts gravity
+    void InvertGravityMovement()
+    {
+        if (UnityEngine.Physics.gravity.y < 0)
+            UnityEngine.Physics.gravity *= -1;
+
+        DefaultMovement();
     }
 }

@@ -9,10 +9,13 @@ public class ColorChanger : MonoBehaviour
     private Material color;
 
     private Collider characterCollider;
+    private Collider myCollider;
 
     public GameObject character;
 
     private Material characterMaterial;
+
+    private Vector3 originalPosition;
 
 
 
@@ -21,6 +24,8 @@ public class ColorChanger : MonoBehaviour
     {
         character = GameObject.Find("Character");
         characterCollider = character.GetComponent<Collider>();
+        myCollider = gameObject.GetComponent<Collider>();
+        originalPosition = gameObject.transform.position;
 
         switch (mode)
         {
@@ -31,9 +36,11 @@ public class ColorChanger : MonoBehaviour
                 color = Resources.Load("Materials/Red", typeof(Material)) as Material;
                 break;
             case CustomController.Mode.Jump:
-                color = Resources.Load("Materials/White", typeof(Material)) as Material;
+                color = Resources.Load("Materials/Blue", typeof(Material)) as Material;
                 break;
         }
+
+        GetComponent<Renderer>().material = color;
 
     }
 
@@ -45,13 +52,15 @@ public class ColorChanger : MonoBehaviour
 
     public void Collision()
     {
-        if (characterCollider.bounds.Intersects(gameObject.GetComponent<Collider>().bounds))
+        if (characterCollider.bounds.Intersects(myCollider.bounds))
         {
             CustomController.controllerInstance.mode = mode;
             character.GetComponent<Renderer>().material = color;
 
-            transform.position = new Vector3(transform.position.x, gameObject.GetComponent<Collider>().bounds.center.y - .2f, transform.position.z);
+            if (transform.position.y > originalPosition.y - .2f)
+                transform.position = new Vector3(transform.position.x, transform.position.y - .02f, transform.position.z);
         }
-
+        else if(transform.position.y < originalPosition.y)
+            transform.position = new Vector3(transform.position.x, transform.position.y + .02f, transform.position.z);
     }
 }
