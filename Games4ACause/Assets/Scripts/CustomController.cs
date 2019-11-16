@@ -183,7 +183,7 @@ public class CustomController : MonoBehaviour
         {
             UnityEngine.Physics.gravity *= -1;
             gravityInverted = !gravityInverted;
-            gravityCooldown = 2f;
+            gravityCooldown = 1f;
             if (gravityInverted)
             {
                 worldParticles.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
@@ -222,7 +222,7 @@ public class CustomController : MonoBehaviour
         if (transparentCooldown <= 0)
         {
             isTransparent = !isTransparent;
-            transparentCooldown = 2f;
+            transparentCooldown = 1f;
         }
         Debug.Log(mode);
         Debug.Log(previousMode);
