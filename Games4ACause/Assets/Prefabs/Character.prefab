@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: af083b559cbaaf84a8995603f3833a3b, type: 2}
+  - {fileID: 2100000, guid: 69366c63c0798904c92b70641b2ad516, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,6 +111,7 @@ MonoBehaviour:
   drag: 0.4
   denseDrag: 0.6
   jumpForce: 15
+  gravityMultiplier: 3
 --- !u!54 &6134905527021268531
 Rigidbody:
   m_ObjectHideFlags: 0
