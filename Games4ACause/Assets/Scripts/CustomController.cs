@@ -27,11 +27,15 @@ public class CustomController : MonoBehaviour
     private Mode previousMode;
     private float gravityCooldown;
     private float transparentCooldown;
-    
 
+    private float cameraWidth;
+    private float cameraHeight;
     // Start is called before the first frame update
     void Start()
     {
+        cameraHeight = Camera.main.orthographicSize;
+        cameraWidth = cameraHeight * Camera.main.aspect;
+
         velocity = new Vector3(0, 0);
         acceleration = new Vector3(0, 0);
         lastVelocity = new Vector3(0, 0);
@@ -90,6 +94,7 @@ public class CustomController : MonoBehaviour
         rigidbody.AddForce(acceleration);
 
         rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, MAX_SPEED);
+        BounceOffCameraEdge();
         acceleration = Vector3.zero;
         lastVelocity = rigidbody.velocity;
         previousMode = mode;
@@ -179,5 +184,19 @@ public class CustomController : MonoBehaviour
             isTransparent = !isTransparent;
         }
         mode = previousMode;
+    }
+
+    private void BounceOffCameraEdge()
+    {
+        if (transform.position.x < -cameraWidth)
+        {
+            transform.position = new Vector3(-cameraWidth, transform.position.y);
+            rigidbody.velocity = new Vector3(-rigidbody.velocity.x, rigidbody.velocity.y);
+        }
+        if (transform.position.x > cameraWidth)
+        {
+            transform.position = new Vector3(cameraWidth, transform.position.y);
+            rigidbody.velocity = new Vector3(-rigidbody.velocity.x, rigidbody.velocity.y);
+        }
     }
 }
