@@ -12,7 +12,7 @@ public class SceneSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        endLevelImage = Instantiate(endLevelImage, new Vector3(0, 0, -9), Quaternion.identity);
+        endLevelImage = Instantiate(endLevelImage, new Vector3(0, -0.72f, -9), Quaternion.identity);
         endLevelImage.SetActive(false);
 
 
@@ -34,6 +34,8 @@ public class SceneSelector : MonoBehaviour
         {
             EndLevel();
         }
+
+        RestartLevel();
     }
 
     public void EndLevel()
