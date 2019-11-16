@@ -18,8 +18,12 @@ public class SceneSelector : MonoBehaviour
 
     public Canvas youLose;
 
+    public Canvas pauseScreen;
+
     public bool win;
     public bool lose;
+    public bool pause;
+    public bool pauseFirst;
 
     //public Canvas titleScreen;
 
@@ -30,6 +34,8 @@ public class SceneSelector : MonoBehaviour
         canvasInstantiated = false;
         win = false;
         lose = false;
+        pause = false;
+        pauseFirst = false;
 
         character = GameObject.Find("Character");
 
@@ -69,6 +75,7 @@ public class SceneSelector : MonoBehaviour
 
         RestartLevel();
         FailLevel();
+        PauseScreen();
     }
 
     public void EndLevel()
@@ -177,6 +184,54 @@ public class SceneSelector : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Escape))
             {
                 Application.Quit();
+            }
+        }
+    }
+
+    public void PauseScreen()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (pause == false)
+            {
+                if (pauseFirst == false)
+                {
+                    pauseScreen = Instantiate(pauseScreen, new Vector3(0, 0, -9), Quaternion.identity);
+                    pauseFirst = true;
+                }
+                else if (pauseFirst)
+                {
+                    pauseScreen.enabled = true;
+                }
+                pause = true;
+            }
+        }
+
+        if (pause)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                pause = false;
+                pauseScreen.enabled = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                if (UnityEngine.Physics.gravity.y > 0)
+                {
+                    UnityEngine.Physics.gravity *= -1;
+                }
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (UnityEngine.Physics.gravity.y > 0)
+                {
+                    UnityEngine.Physics.gravity *= -1;
+                }
+
+                SceneManager.LoadScene(0);
             }
         }
     }

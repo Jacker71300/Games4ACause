@@ -47,8 +47,10 @@ MonoBehaviour:
     type: 3}
   titleScreen: {fileID: 7273737524781957490, guid: 0e61a25c146ff0e4b8dfd82a56c16916,
     type: 3}
-  character: {fileID: 7725120661400516616, guid: 9e356c0fabb723548a95afac431705d1,
-    type: 3}
   youWin: {fileID: 7273737524781957490, guid: 57696e0bd0d156042b01a2c28c89f460, type: 3}
   youLose: {fileID: 7273737524781957490, guid: d426d5cb252f54741abf6470bbd5ca28, type: 3}
+  pauseScreen: {fileID: 7273737524781957490, guid: 531c9eab9dcc5dc47be47eaffdd23c87,
+    type: 3}
   win: 0
+  lose: 0
+  pause: 0
