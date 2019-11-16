@@ -81,6 +81,15 @@ public class CustomController : MonoBehaviour
 
         }
 
+        // Make half transparent
+        Color currentColor = gameObject.GetComponent<Renderer>().material.color;
+
+        if (isTransparent)
+            gameObject.GetComponent<Renderer>().material.color = new Color(currentColor.r, currentColor.b, currentColor.g, .5f);
+        else
+            gameObject.GetComponent<Renderer>().material.color = new Color(currentColor.r, currentColor.b, currentColor.g, 1f);
+
+
         if (gravityCooldown > 0)
             gravityCooldown -= Time.deltaTime;
         if (transparentCooldown > 0)
