@@ -49,7 +49,8 @@ public class ColorChanger : MonoBehaviour
         {
             CustomController.controllerInstance.mode = mode;
             character.GetComponent<Renderer>().material = color;
-            
+
+            transform.position = new Vector3(transform.position.x, gameObject.GetComponent<Collider>().bounds.center.y - .2f, transform.position.z);
         }
 
     }
