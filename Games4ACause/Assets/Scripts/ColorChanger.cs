@@ -6,7 +6,7 @@ public class ColorChanger : MonoBehaviour
 {
     public CustomController.Mode mode;
 
-    private Material color;
+    private Material material;
 
     private Collider characterCollider;
     private Collider myCollider;
@@ -30,20 +30,20 @@ public class ColorChanger : MonoBehaviour
         switch (mode)
         {
             case CustomController.Mode.Default:
-                color = Resources.Load("Materials/Black", typeof(Material)) as Material;
+                material = Resources.Load("Materials/Black", typeof(Material)) as Material;
                 break;
             case CustomController.Mode.Dense:
-                color = Resources.Load("Materials/Red", typeof(Material)) as Material;
+                material = Resources.Load("Materials/Red", typeof(Material)) as Material;
                 break;
             case CustomController.Mode.Jump:
-                color = Resources.Load("Materials/Blue", typeof(Material)) as Material;
+                material = Resources.Load("Materials/Blue", typeof(Material)) as Material;
                 break;
             case CustomController.Mode.InvertGravity:
-                color = Resources.Load("Materials/Green", typeof(Material)) as Material;
+                material = Resources.Load("Materials/Green", typeof(Material)) as Material;
                 break;
         }
 
-        GetComponent<Renderer>().material = color;
+        GetComponent<Renderer>().material = material;
 
     }
 
@@ -57,21 +57,44 @@ public class ColorChanger : MonoBehaviour
     {
         if (characterCollider.bounds.Intersects(myCollider.bounds))
         {
-            CustomController.controllerInstance.mode = mode;
-            if(mode == CustomController.Mode.InvertGravity)
+            if (character.GetComponent<CustomController>().mode != mode)
             {
-                if(character.GetComponent<CustomController>().gravityInverted && character.GetComponent<CustomController>().gravityCooldown == 0)
+                if (mode == CustomController.Mode.InvertGravity && character.GetComponent<CustomController>().gravityCooldown <= 0)
                 {
-                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityDown", "play");
-                } else
-                {
-                    gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
+                    CustomController.controllerInstance.mode = mode;
+
+                    if (character.GetComponent<CustomController>().gravityInverted)
+                    {
+                        gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityDown", "play");
+                    }
+                    else
+                    {
+                        gameObject.GetComponent<ObjectParticleManager>().ReceiveMessage("gravityUp", "play");
+                    }
                 }
-            } else
-            {
-                character.GetComponent<Renderer>().material = color;
+                else if (mode == CustomController.Mode.Transparent && character.GetComponent<CustomController>().transparentCooldown <= 0)
+                {
+                    CustomController.controllerInstance.mode = mode;
+                }
+                else
+                {
+                    CustomController.controllerInstance.mode = mode;
+                    
+                    if(mode != CustomController.Mode.Transparent)
+                        character.GetComponent<Renderer>().material = material;
+                }
+
+                Color color = character.GetComponent<Renderer>().material.color;
+
+                if (character.GetComponent<CustomController>().isTransparent)
+                {                 
+                    character.GetComponent<Renderer>().material.SetColor("Color", new Color(color.r, color.g, color.b, .5f));
+                }
+                else
+                {
+                    color = new Color(color.r, color.g, color.b, 1f);
+                }
             }
-            
 
             if (pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) < 0.98)
                 transform.position += -transform.up * depressionSpeed * Time.deltaTime;
@@ -82,6 +105,13 @@ public class ColorChanger : MonoBehaviour
 
     private float pathPercent(Vector3 currentPoint, Vector3 p1, Vector3 p2)
     {
-        return (currentPoint - p1).magnitude / (p2 - p1).magnitude;
+        if (Vector3.Dot((currentPoint - p1).normalized, (p2 - p1).normalized) >= 0.99)
+        {
+            return (currentPoint - p1).magnitude / (p2 - p1).magnitude;
+        } else
+        {
+            return -(currentPoint - p1).magnitude / (p2 - p1).magnitude;
+        }
+        
     }
 }

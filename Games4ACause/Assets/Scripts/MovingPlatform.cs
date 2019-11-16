@@ -6,26 +6,38 @@ public class MovingPlatform : MonoBehaviour
 {
     public Vector3[] path;
     public float speed;
+    public float deadTime;
 
+    private float currentDeadTime;
     private int currentPathPoint;
     // Start is called before the first frame update
     void Start()
     {
         currentPathPoint = 0;
+        currentDeadTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         DrawPath();
-        if(MoveTowards(path[currentPathPoint], speed))
+        if(currentDeadTime == 0)
         {
-            currentPathPoint += 1;
-            if (currentPathPoint >= path.Length)
+            if (MoveTowards(path[currentPathPoint], speed))
             {
-                currentPathPoint = 0;
+                currentDeadTime = deadTime;
+                currentPathPoint += 1;
+                if (currentPathPoint >= path.Length)
+                {
+                    currentPathPoint = 0;
+                }
             }
+        } else
+        {
+            currentDeadTime -= Time.deltaTime;
+            if (currentDeadTime < 0) currentDeadTime = 0;
         }
+        
     }
 
     private bool MoveTowards(Vector3 point, float speed)
