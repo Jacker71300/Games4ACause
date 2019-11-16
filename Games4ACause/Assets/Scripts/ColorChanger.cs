@@ -74,8 +74,8 @@ public class ColorChanger : MonoBehaviour
                 else
                 {
                     CustomController.controllerInstance.mode = mode;
-
-                    if (mode != CustomController.Mode.Transparent)
+                    
+                    if(!(mode == CustomController.Mode.Transparent  || mode == CustomController.Mode.InvertGravity))
                         character.GetComponent<Renderer>().material = material;
                 }
 
