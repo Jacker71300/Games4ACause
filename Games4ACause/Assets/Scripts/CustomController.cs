@@ -221,8 +221,8 @@ public class CustomController : MonoBehaviour
             isTransparent = !isTransparent;
             canBeTransparent = false;
         }
-        Debug.Log(mode);
-        Debug.Log(previousMode);
+        //Debug.Log(mode);
+        //Debug.Log(previousMode);
         mode = previousMode;
 
         switch (mode)

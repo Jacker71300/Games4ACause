@@ -77,18 +77,21 @@ public class ColorChanger : MonoBehaviour
                     
                     if(!(mode == CustomController.Mode.Transparent  || mode == CustomController.Mode.InvertGravity))
                         character.GetComponent<Renderer>().material = material;
+
+                    Color color = character.GetComponent<Renderer>().material.color;
+
+                    if (character.GetComponent<CustomController>().isTransparent)
+                    {
+                        Debug.Log("Stays transparent");
+                        character.GetComponent<Renderer>().material.SetColor("Color", new Color(color.r, color.g, color.b, .5f));
+                    }
+                    else
+                    {
+                        character.GetComponent<Renderer>().material.SetColor("Color", new Color(color.r, color.g, color.b, 1f));
+                    }
                 }
 
-                Color color = character.GetComponent<Renderer>().material.color;
-
-                if (character.GetComponent<CustomController>().isTransparent)
-                {
-                    character.GetComponent<Renderer>().material.SetColor("Color", new Color(color.r, color.g, color.b, .5f));
-                }
-                else
-                {
-                    color = new Color(color.r, color.g, color.b, 1f);
-                }
+                
             }
 
             if (pathPercent(transform.position, originalPosition, originalPosition - transform.up * 0.2f) < 0.98)
