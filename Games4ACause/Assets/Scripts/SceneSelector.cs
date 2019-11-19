@@ -80,7 +80,7 @@ public class SceneSelector : MonoBehaviour
 
     public void EndLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex >= SceneManager.sceneCount)
+        if (SceneManager.GetActiveScene().buildIndex >= 14)
         {
 
             Debug.Log("AHHAHAH");
@@ -102,7 +102,7 @@ public class SceneSelector : MonoBehaviour
             }
         }
 
-        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
+        if (SceneManager.GetActiveScene().buildIndex < 14)
         {
             if (canvasInstantiated == false)
             {
