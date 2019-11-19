@@ -24,6 +24,7 @@ public class SceneSelector : MonoBehaviour
     public bool lose;
     public bool pause;
     public bool pauseFirst;
+    public int totalLevelCount;
 
     //public Canvas titleScreen;
 
@@ -36,6 +37,7 @@ public class SceneSelector : MonoBehaviour
         lose = false;
         pause = false;
         pauseFirst = false;
+        totalLevelCount = 16;
 
         character = GameObject.Find("Character");
 
@@ -63,7 +65,7 @@ public class SceneSelector : MonoBehaviour
             EndLevel();
         }
 
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        if (SceneManager.GetActiveScene().name == "Level1")
         {
             TitleLevel();
         }
@@ -72,15 +74,18 @@ public class SceneSelector : MonoBehaviour
         {
             EndLevel();
         }
+        else
+        {
+            RestartLevel();
+            FailLevel();
+            PauseScreen();
+        }
 
-        RestartLevel();
-        FailLevel();
-        PauseScreen();
     }
 
     public void EndLevel()
     {
-        if (SceneManager.GetActiveScene().buildIndex >= 14)
+        if (SceneManager.GetActiveScene().name.Substring(0, 5) == "Level" && int.Parse(SceneManager.GetActiveScene().name.Substring(5)) >= totalLevelCount)
         {
 
             Debug.Log("AHHAHAH");
@@ -101,8 +106,7 @@ public class SceneSelector : MonoBehaviour
                 SceneManager.LoadScene(0);
             }
         }
-
-        if (SceneManager.GetActiveScene().buildIndex < 14)
+        else
         {
             if (canvasInstantiated == false)
             {
@@ -127,7 +131,13 @@ public class SceneSelector : MonoBehaviour
                 UnityEngine.Physics.gravity *= -1;
             }
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        string currentScene = SceneManager.GetActiveScene().name;
+        if(currentScene.Substring(0, 5) == "Level")
+        {
+            int levelIndex = int.Parse(currentScene.Substring(5));
+            levelIndex++;
+            SceneManager.LoadScene("Level" + levelIndex);
+        }
     }
 
     public void RestartLevel()
@@ -148,6 +158,10 @@ public class SceneSelector : MonoBehaviour
         {
             Destroy(GameObject.Find("TitlePage(Clone)"));
         }
+        else if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void FailLevel()
@@ -155,7 +169,7 @@ public class SceneSelector : MonoBehaviour
         if ((character.transform.position.y < (Camera.main.orthographicSize * -1) && UnityEngine.Physics.gravity.y < 0) ||
             (character.transform.position.y > Camera.main.orthographicSize && UnityEngine.Physics.gravity.y > 0))
         {
-            
+
             if (!lose)
             {
                 youLose = Instantiate(youLose, new Vector3(0, 0, -9), Quaternion.identity);
@@ -168,7 +182,7 @@ public class SceneSelector : MonoBehaviour
                 {
                     UnityEngine.Physics.gravity *= -1;
                 }
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
